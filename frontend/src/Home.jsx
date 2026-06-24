@@ -112,7 +112,7 @@ export default function Home() {
             ) : (
               <button onClick={() => navigate("/login")} className="nav-btn">Login</button>
             )}
-            <button onClick={handleQuizClick} className="nav-btn accent-glow">Find Your Flaw</button>
+            <button onClick={handleQuizClick} className="nav-btn accent-glow">Training Diagnosis</button>
             <button onClick={handleRegister} className="nav-btn outline">Free RPE Guide</button>
           </div>
         </div>
@@ -131,10 +131,10 @@ export default function Home() {
           <p className="hero-sub">Apex Method adapts your training based on performance, fatigue, and real‑time feedback. No static spreadsheets.</p>
           <div className="hero-buttons">
             <button 
-              onClick={() => document.getElementById("quiz-section")?.scrollIntoView({ behavior: "smooth" })} 
+              onClick={() => document.getElementById("diagnostic-section")?.scrollIntoView({ behavior: "smooth" })} 
               className="btn btn-primary animate-pulse"
             >
-              Find Your Training Flaw ↓
+              Analyze Your Training Stagnation ↓
             </button>
             <button 
               onClick={() => document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" })} 
@@ -174,17 +174,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Embedded Quiz Section (Properly Handled via SDK) */}
-      <section className="quiz-section" id="quiz-section">
+      {/* Streamlined Diagnostic Dashboard Section (Masking the Embed) */}
+      <section className="diagnostic-section" id="diagnostic-section">
         <div className="container">
-          <div className="quiz-wrapper">
-            <h2>Why did your training stop working?</h2>
-            <p className="quiz-sub">Take the 2‑minute assessment. Identify your exact bottleneck so you can adjust your parameters and resume progress.</p>
-            <div className="typeform-embed-frame">
+          <div className="diagnostic-wrapper">
+            <h2>Isolate Training Stagnation</h2>
+            <p className="diagnostic-sub">Run through the metrics engine below to locate flaws in your volume allocation, load progression, or fatigue management.</p>
+            <div className="diagnostic-embed-container">
               <Widget 
                 id="01KVWTYXQSDCQGGHQK3MRAGFDP" 
-                style={{ width: '100%', height: '550px' }} 
-                className="my-form" 
+                style={{ width: '100%', height: '580px' }} 
+                inlineOnMobile={true}
+                enableSandbox={false}
+                hideHeaders={true}
+                hideFooter={true}
+                transparency={100}
               />
             </div>
           </div>
@@ -255,10 +259,10 @@ export default function Home() {
           <h2>Stop guessing. Get a diagnosis.</h2>
           <p>Find out why your training stalled – then fix it with a system built for you.</p>
           <button 
-            onClick={() => document.getElementById("quiz-section")?.scrollIntoView({ behavior: "smooth" })} 
+            onClick={() => document.getElementById("diagnostic-section")?.scrollIntoView({ behavior: "smooth" })} 
             className="btn btn-primary btn-large"
           >
-            Take the Quiz →
+            Run System Analysis →
           </button>
         </div>
       </section>
@@ -279,13 +283,15 @@ export default function Home() {
         </div>
       )}
 
-      {/* Native Typeform Popup Modal (Triggers via Top Nav "Find Your Flaw") */}
+      {/* Native Typeform Popup Modal */}
       {showQuizModal && (
         <Popup
           id="01KVWTYXQSDCQGGHQK3MRAGFDP"
           onClose={() => setShowQuizModal(false)}
           open={true}
           autoClose={false}
+          hideHeaders={true}
+          hideFooter={true}
         />
       )}
     </>
