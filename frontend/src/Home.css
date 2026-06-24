@@ -24,6 +24,10 @@ body {
   line-height: 1.5;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -97,7 +101,20 @@ body {
   color: var(--accent);
 }
 
-/* ==================== HERO (CSS barbell, no gold) ==================== */
+.nav-btn.accent-glow {
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.15);
+}
+
+.nav-btn.accent-glow:hover {
+  background: var(--accent);
+  color: #000;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+}
+
+/* ==================== HERO ==================== */
 .hero {
   height: 100vh;
   display: flex;
@@ -122,7 +139,7 @@ body {
   position: absolute;
 }
 
-/* Barbell (horizontal bar with two weight plates) */
+/* Barbell */
 .barbell {
   width: 300px;
   height: 6px;
@@ -232,6 +249,16 @@ body {
   transform: translateY(-2px);
 }
 
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.animate-pulse {
+  animation: pulse 2.5s infinite ease-in-out;
+}
+
 .btn-outline {
   background: transparent;
   border: 1px solid var(--border);
@@ -301,12 +328,44 @@ body {
   color: var(--text-gray);
 }
 
+/* ==================== TYPEFORM EMBED SECTION ==================== */
+.quiz-section {
+  background: #0f172a;
+  padding: 90px 20px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+
+.quiz-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.quiz-wrapper h2 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.5px;
+}
+
+.quiz-sub {
+  color: var(--text-gray);
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+}
+
+.typeform-embed-frame {
+  background: var(--card-bg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
 /* ==================== COMPARISON ==================== */
 .comparison {
   background: var(--bg-dark);
   padding: 80px 20px;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
 }
 
 .comparison-grid {
@@ -362,7 +421,7 @@ body {
   color: var(--accent);
 }
 
-/* ==================== PROGRAMS SECTION (no images) ==================== */
+/* ==================== PROGRAMS SECTION ==================== */
 .programs {
   padding: 80px 20px;
   background: var(--bg-dark);
@@ -602,6 +661,12 @@ body {
   }
   .hero-sub {
     font-size: 1rem;
+  }
+  .quiz-wrapper h2 {
+    font-size: 1.8rem;
+  }
+  .quiz-sub {
+    font-size: 0.95rem;
   }
   .comparison-grid {
     grid-template-columns: 1fr;

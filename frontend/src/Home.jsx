@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Widget, Popup } from "@typeform/embed-react";
 import "./Home.css";
 
 export default function Home() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [showQuizModal, setShowQuizModal] = useState(false);
   const [email, setEmail] = useState("");
   const [modalMessage, setModalMessage] = useState("");
   const userId = localStorage.getItem("userId");
@@ -13,6 +15,10 @@ export default function Home() {
     setShowModal(true);
     setModalMessage("");
     setEmail("");
+  };
+
+  const handleQuizClick = () => {
+    setShowQuizModal(true);
   };
 
   const handleEmailSubmit = async (e) => {
@@ -79,7 +85,7 @@ export default function Home() {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Checkout failed");
-      if (data.url) window.location.href = data.url;
+      if (data.url) window.location.assign(data.url);
       else throw new Error("No checkout URL returned");
     } catch (err) {
       console.error("Checkout error:", err);
@@ -89,11 +95,12 @@ export default function Home() {
 
   const handleCoaching = (programName) => {
     const program = programs.find(p => p.originalTitle === programName);
-    if (program && program.coachingLink) window.location.href = program.coachingLink;
+    if (program && program.coachingLink) window.location.assign(program.coachingLink);
   };
 
   return (
     <>
+      {/* Navigation */}
       <nav className="navbar">
         <div className="nav-container">
           <span className="logo" onClick={() => navigate("/")}>
@@ -105,11 +112,13 @@ export default function Home() {
             ) : (
               <button onClick={() => navigate("/login")} className="nav-btn">Login</button>
             )}
+            <button onClick={handleQuizClick} className="nav-btn accent-glow">Find Your Flaw</button>
             <button onClick={handleRegister} className="nav-btn outline">Free RPE Guide</button>
           </div>
         </div>
       </nav>
 
+      {/* Hero Section */}
       <section className="hero">
         <div className="hero-shapes">
           <div className="shape barbell"></div>
@@ -121,10 +130,16 @@ export default function Home() {
           <h1>Stop guessing your progression</h1>
           <p className="hero-sub">Apex Method adapts your training based on performance, fatigue, and real‑time feedback. No static spreadsheets.</p>
           <div className="hero-buttons">
-            <button onClick={() => document.getElementById("programs")?.scrollIntoView({ behavior: "smooth" })} className="btn btn-primary">
-              Explore Programs
+            <button 
+              onClick={() => document.getElementById("quiz-section")?.scrollIntoView({ behavior: "smooth" })} 
+              className="btn btn-primary animate-pulse"
+            >
+              Find Your Training Flaw ↓
             </button>
-            <button onClick={() => document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" })} className="btn btn-outline">
+            <button 
+              onClick={() => document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" })} 
+              className="btn btn-outline"
+            >
               How It Works
             </button>
           </div>
@@ -132,6 +147,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* How It Works */}
       <section className="how-it-works" id="how-it-works">
         <div className="container">
           <h2>How it works</h2>
@@ -158,6 +174,24 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Embedded Quiz Section (Properly Handled via SDK) */}
+      <section className="quiz-section" id="quiz-section">
+        <div className="container">
+          <div className="quiz-wrapper">
+            <h2>Why did your training stop working?</h2>
+            <p className="quiz-sub">Take the 2‑minute assessment. Identify your exact bottleneck so you can adjust your parameters and resume progress.</p>
+            <div className="typeform-embed-frame">
+              <Widget 
+                id="01KVWTYXQSDCQGGHQK3MRAGFDP" 
+                style={{ width: '100%', height: '550px' }} 
+                className="my-form" 
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Comparison */}
       <section className="comparison">
         <div className="container">
           <h2>Static spreadsheets vs. Apex Method</h2>
@@ -184,6 +218,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Training Systems */}
       <section className="programs" id="programs">
         <div className="container">
           <h2>Training systems</h2>
@@ -214,16 +249,21 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Final CTA */}
       <section className="final-cta">
         <div className="container">
-          <h2>Train with a system that adapts</h2>
-          <p>Built for lifters who take progression seriously.</p>
-          <button onClick={() => document.getElementById("programs")?.scrollIntoView({ behavior: "smooth" })} className="btn btn-primary btn-large">
-            Choose your system →
+          <h2>Stop guessing. Get a diagnosis.</h2>
+          <p>Find out why your training stalled – then fix it with a system built for you.</p>
+          <button 
+            onClick={() => document.getElementById("quiz-section")?.scrollIntoView({ behavior: "smooth" })} 
+            className="btn btn-primary btn-large"
+          >
+            Take the Quiz →
           </button>
         </div>
       </section>
 
+      {/* RPE Guide Modal */}
       {showModal && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -238,11 +278,20 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* Native Typeform Popup Modal (Triggers via Top Nav "Find Your Flaw") */}
+      {showQuizModal && (
+        <Popup
+          id="01KVWTYXQSDCQGGHQK3MRAGFDP"
+          onClose={() => setShowQuizModal(false)}
+          open={true}
+          autoClose={false}
+        />
+      )}
     </>
   );
 }
 
-// Programs renamed – no Greek gods, no images.
 const programs = [
   {
     originalTitle: "Ares Protocol",
