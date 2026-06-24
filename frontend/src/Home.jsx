@@ -98,6 +98,9 @@ export default function Home() {
     if (program && program.coachingLink) window.location.assign(program.coachingLink);
   };
 
+  // The correct Typeform quiz ID – extracted from https://form.typeform.com/to/w4tLNcmM
+  const TYPEFORM_QUIZ_ID = "w4tLNcmM";
+
   return (
     <>
       {/* Navigation */}
@@ -182,7 +185,7 @@ export default function Home() {
             <p className="diagnostic-sub">Run through the metrics engine below to locate flaws in your volume allocation, load progression, or fatigue management.</p>
             <div className="diagnostic-embed-container">
               <Widget 
-                id="01KVWTYXQSDCQGGHQK3MRAGFDP" 
+                id={TYPEFORM_QUIZ_ID}
                 style={{ width: '100%', height: '580px' }} 
                 inlineOnMobile={true}
                 enableSandbox={false}
@@ -286,7 +289,7 @@ export default function Home() {
       {/* Native Typeform Popup Modal */}
       {showQuizModal && (
         <Popup
-          id="01KVWTYXQSDCQGGHQK3MRAGFDP"
+          id={TYPEFORM_QUIZ_ID}
           onClose={() => setShowQuizModal(false)}
           open={true}
           autoClose={false}
